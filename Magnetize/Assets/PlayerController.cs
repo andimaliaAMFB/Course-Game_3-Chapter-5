@@ -31,27 +31,33 @@ public class PlayerController : MonoBehaviour
         //Move the object
         rb2D.velocity = -transform.up * moveSpeed;
 
-        if (Input.GetKey(KeyCode.Z) && !isPulled)
+        if (Input.GetMouseButtonDown(0) && !isPulled)
         {
-            if (closestTower != null && hookedTower == null)
+            Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousepos2D = new Vector2(mousepos.x, mousepos.y);
+            RaycastHit2D hit = Physics2D.Raycast(mousepos2D, Vector2.zero);
+            if (hit.collider != null)
             {
-                hookedTower = closestTower;
-            }
-            if (hookedTower)
-            {
-                float distance = Vector2.Distance(transform.position, hookedTower.transform.position);
-
-                //Gravitation toward tower
-                Vector3 pullDirection = (hookedTower.transform.position - transform.position).normalized;
-                float newPullForce = Mathf.Clamp(pullForce / distance, 20, 50);
-                rb2D.AddForce(pullDirection * newPullForce);
-
-                //Angular velocity
-                rb2D.angularVelocity = -rotateSpeed / distance;
-                isPulled = true;
+                Debug.Log(hit.collider.gameObject.name); //cuma untuk mengetahui nama tower/ game objek mana yang di klik//
+                hookedTower = hit.collider.gameObject;
             }
         }
-        if (Input.GetKeyUp(KeyCode.Z))
+
+        if (hookedTower)
+        {
+            float distance = Vector2.Distance(transform.position, hookedTower.transform.position);
+
+            //Gravitation toward tower
+            Vector3 pullDirection = (hookedTower.transform.position - transform.position).normalized;
+            float newPullForce = Mathf.Clamp(pullForce / distance, 20, 50);
+            rb2D.AddForce(pullDirection * newPullForce);
+
+            //Angular velocity
+            rb2D.angularVelocity = -rotateSpeed / distance;
+            isPulled = true;
+        }
+    
+        if (Input.GetMouseButtonUp(0))
         {
             isPulled = false;
             hookedTower = null;
@@ -139,4 +145,13 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    //public void Hooking()
+    //{
+    //    if(closestTower != null && hookedTower == null)
+    //    {
+    //        hookedTower = closestTower;
+    //    }
+        
+    //}
 }
