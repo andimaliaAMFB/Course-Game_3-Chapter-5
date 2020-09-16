@@ -9,11 +9,13 @@ public class UIControllerScript : MonoBehaviour
     public GameObject resumeBtn;
     public GameObject levelClearTxt;
     private Scene currActiveScene;
+    public GameObject nextBtn;
 
     // Start is called before the first frame update
     void Start()
     {
         currActiveScene = SceneManager.GetActiveScene();
+        nextBtn.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,5 +50,6 @@ public class UIControllerScript : MonoBehaviour
         pausePanel.SetActive(true);
         resumeBtn.SetActive(false);
         levelClearTxt.SetActive(true);
+        nextBtn.SetActive(true);
     }
 }

@@ -145,13 +145,4 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    //public void Hooking()
-    //{
-    //    if(closestTower != null && hookedTower == null)
-    //    {
-    //        hookedTower = closestTower;
-    //    }
-        
-    //}
 }
